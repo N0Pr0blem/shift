@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
   datasource:
     url: jdbc:postgresql://shift_db:5432/shift_db
     username: root
@@ -9,6 +12,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true
-    url: jdbc:postgresql://root:root@shift_db:5432/shift_db
-    locations: classpath:db/migration
+    url: jdbc:postgresql://shift_db:5432/shift_db
+    user: root
+    password: root
+
 

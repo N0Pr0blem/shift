@@ -24,6 +24,8 @@ services:
       - shift_db
     environment:
       SPRING_DATA_SOURCE_URL: 'jdbc:postgresql://shift_db:5432/shift_db'
+      SPRING_DATA_SOURCE_USERNAME: 'root'
+      SPRING_DATA_SOURCE_PASSWORD: 'root'
       SPRING_FLYWAY_URL: 'jdbc:postgresql://shift_db:5432/shift_db'
       SPRING_FLYWAY_USER: 'root'
       SPRING_FLYWAY_PASSWORD: 'root'

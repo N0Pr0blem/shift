@@ -16,6 +16,8 @@ public class Employee {
     private Long id;
     private String name;
     private Double salary;
-    private String department;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
     private Boolean isManager;
 }

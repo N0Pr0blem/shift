@@ -10,6 +10,6 @@ public class EmployeeDto {
     private Long id;
     private String name;
     private Double salary;
-    private String department;
-    private Boolean manager;
+    private String departmentName;
+    private Boolean isManager;
 }

@@ -22,7 +22,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
-        check(employee.getDepartment());
         return employeeRepository.save(employee);
     }
 
@@ -47,9 +46,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee makeManager(Long employeeId) {
         Optional<Employee> findEmployee = employeeRepository.findById(employeeId)
-                .map(employee -> employee.toBuilder()
-                        .isManager(true)
-                        .build());
+                .map(employee -> {
+                    if(!employee.getIsManager())
+                        return employee.toBuilder()
+                            .isManager(true)
+                            .build();
+                    else throw new EmployeeException("Employee is already manager");
+                });
         if(findEmployee.isPresent()) return findEmployee.get();
         else throw new EmployeeException("No such employee");
 
@@ -62,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     if (employee.getName() != null) findEmployee.setName(employee.getName());
                     if (employee.getIsManager() != null) findEmployee.setIsManager(employee.getIsManager());
                     if (employee.getSalary() != null) findEmployee.setSalary(employee.getSalary());
-                    if (employee.getDepartment() != null && check(employee.getDepartment()))
+                    if (employee.getDepartment() != null)
                         findEmployee.setDepartment(employee.getDepartment());
 
                     return employeeRepository.save(findEmployee);
@@ -76,9 +79,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.deleteById(employeeId);
     }
 
-    private boolean check(String department) {
-        if (departmentService.check(department))
-            return true;
-        else throw new EmployeeException("No such department for employee");
-    }
 }

@@ -5,10 +5,10 @@ COPY gradle/ gradle/
 COPY build.gradle .
 COPY settings.gradle .
 COPY ./src ./src
-RUN ./gradlew build -x test
+RUN ./gradlew build -x test --info
 
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /opt/app
 EXPOSE 8080
-COPY --from=builder /opt/app/target/*.jar /opt/app/*jar
-ENTRYPOINT ["java","-jar","/opt/app/*jar"]
+COPY --from=builder /opt/app/build/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]

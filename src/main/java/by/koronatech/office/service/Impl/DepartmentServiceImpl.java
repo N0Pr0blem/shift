@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public boolean check(String department) {
-        return departmentRepository.findByName(department).isPresent();
+    public Optional<Department> findByName(String departmentName) {
+        return departmentRepository.findByName(departmentName);
     }
 }
