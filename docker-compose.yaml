@@ -1,0 +1,30 @@
+version: '3.1'
+
+volumes:
+  pg_shift:
+
+services:
+  shift_db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=shift_db
+    volumes:
+      - pg_shift:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  app:
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - shift_db
+    environment:
+      SPRING_DATA_SOURCE_URL: 'jdbc:postgresql://shift_db:5432/shift_db'
+      SPRING_FLYWAY_URL: 'jdbc:postgresql://shift_db:5432/shift_db'
+      SPRING_FLYWAY_USER: 'root'
+      SPRING_FLYWAY_PASSWORD: 'root'
+      JAVA_OPTS: '-Xmx512m'
