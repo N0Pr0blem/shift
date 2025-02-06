@@ -5,6 +5,7 @@ import by.koronatech.office.mapper.DepartmentMapper;
 import by.koronatech.office.model.Department;
 import by.koronatech.office.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

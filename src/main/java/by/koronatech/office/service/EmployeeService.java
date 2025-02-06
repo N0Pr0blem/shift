@@ -2,6 +2,7 @@ package by.koronatech.office.service;
 
 import by.koronatech.office.model.Department;
 import by.koronatech.office.model.Employee;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface EmployeeService {
 
     List<Employee> findAll();
 
-    List<Employee> findAll(int page, int step);
+    Page<Employee> findAll(int page, int step);
 
     List<Employee> findAllByDepartment(String department);
 
