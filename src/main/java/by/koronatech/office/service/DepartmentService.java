@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface DepartmentService {
     List<Department> findAll();
 
-    Page<Department> findAll(int page, int step);
+    List<Department> findAll(int page, int step);
 
     Optional<Department> findByName(String departmentName);
 

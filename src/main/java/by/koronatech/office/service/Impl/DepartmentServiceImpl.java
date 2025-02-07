@@ -23,8 +23,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Page<Department> findAll(int page, int step) {
-        return departmentRepository.findAll(PageRequest.of(page,step));
+    public List<Department> findAll(int page, int step) {
+        return departmentRepository.findAll(PageRequest.of(page,step)).stream().toList();
     }
 
     @Override
