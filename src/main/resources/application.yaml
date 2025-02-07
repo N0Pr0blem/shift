@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:postgresql://shift_db:5432/shift_db
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://shift_db:5432/shift_db
+    user: root
+    password: root
+
+

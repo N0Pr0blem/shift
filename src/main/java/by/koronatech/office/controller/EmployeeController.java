@@ -1,5 +1,7 @@
 package by.koronatech.office.controller;
 
+import by.koronatech.office.dto.EmployeeDto;
+import by.koronatech.office.mapper.EmployeeMapper;
 import by.koronatech.office.model.Employee;
 import by.koronatech.office.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -13,29 +15,30 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final EmployeeMapper employeeMapper;
 
     @PostMapping()
-    public Employee save(@RequestBody Employee employee){
-        return employeeService.save(employee);
+    public EmployeeDto save(@RequestBody EmployeeDto employeeDto){
+        return employeeMapper.toDto(employeeService.save(employeeMapper.toEntity(employeeDto)));
     }
 
     @GetMapping()
-    public List<Employee> getAll(@RequestParam(required = false) String department){
+    public List<EmployeeDto> getAll(@RequestParam(required = false) String department){
         if (department != null && !department.isEmpty()) {
-            return employeeService.findAllByDepartment(department);
+            return employeeMapper.toDtos(employeeService.findAllByDepartment(department));
         } else {
-            return employeeService.findAll();
+            return employeeMapper.toDtos(employeeService.findAll());
         }
     }
 
     @PatchMapping("/{employeeId}")
-    public Employee makeManager(@PathVariable Long employeeId){
-        return employeeService.makeManager(employeeId);
+    public EmployeeDto makeManager(@PathVariable Long employeeId){
+        return employeeMapper.toDto(employeeService.makeManager(employeeId));
     }
 
     @PostMapping("/{employeeId}")
-    public Employee updateEmployee(@PathVariable Long employeeId, @RequestBody Employee employee){
-        return employeeService.update(employeeId,employee);
+    public EmployeeDto updateEmployee(@PathVariable Long employeeId, @RequestBody EmployeeDto employeeDto){
+        return employeeMapper.toDto(employeeService.update(employeeId,employeeMapper.toEntity(employeeDto)));
     }
 
     @DeleteMapping("/{employeeId}")
