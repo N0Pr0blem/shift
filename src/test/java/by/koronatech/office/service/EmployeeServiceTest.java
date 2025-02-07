@@ -38,7 +38,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void save_ShouldReturnSavedEmployee() {
+    void saveShouldReturnSavedEmployee() {
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         Employee result = employeeService.save(employee);
@@ -51,7 +51,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findAll_ShouldReturnListOfEmployees() {
+    void findAllShouldReturnListOfEmployees() {
         when(employeeRepository.findAll()).thenReturn(List.of(employee));
 
         List<Employee> result = employeeService.findAll();
@@ -64,7 +64,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findAllByDepartment_ShouldReturnEmployeesFromDepartment() {
+    void findAllByDepartmentShouldReturnEmployeesFromDepartment() {
         when(employeeRepository.findAll()).thenReturn(List.of(employee));
 
         List<Employee> result = employeeService.findAllByDepartment("IT");
@@ -77,7 +77,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void makeManager_ShouldUpdateEmployeeToManager() {
+    void makeManagerShouldUpdateEmployeeToManager() {
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
@@ -90,7 +90,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void makeManager_ShouldThrowException() {
+    void makeManagerShouldThrowException() {
         employee.setIsManager(true);
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
@@ -101,7 +101,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void makeManager_ShouldThrowExceptionWhenEmployeeNotFound() {
+    void makeManagerShouldThrowExceptionWhenEmployeeNotFound() {
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> employeeService.makeManager(1L))
@@ -112,7 +112,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void update_ShouldReturnUpdatedEmployee() {
+    void updateShouldReturnUpdatedEmployee() {
         Employee updatedEmployee = new Employee(1L, "Jane Doe", 6000.0, department, true);
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
@@ -129,7 +129,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void update_ShouldThrowExceptionWhenEmployeeNotFound() {
+    void updateShouldThrowExceptionWhenEmployeeNotFound() {
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
         Employee updatedEmployee = new Employee(1L, "Jane Doe", 6000.0, department, true);
@@ -143,7 +143,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void delete_ShouldRemoveEmployee() {
+    void deleteShouldRemoveEmployee() {
         doNothing().when(employeeRepository).deleteById(1L);
 
         employeeService.delete(1L);
