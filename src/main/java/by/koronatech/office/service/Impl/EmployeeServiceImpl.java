@@ -18,7 +18,6 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final DepartmentService departmentService;
 
     @Override
     public Employee save(Employee employee) {
@@ -31,15 +30,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> findAll(int page, int step) {
-        return employeeRepository.findAll(PageRequest.of(page,step));
-    }
-
-    @Override
     public List<Employee> findAllByDepartment(String department) {
         return employeeRepository.findAll()
                 .stream()
-                .filter(employee -> employee.getDepartment().equals(department))
+                .filter(employee -> employee.getDepartment().getName().equals(department))
                 .toList();
     }
 
@@ -47,21 +41,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee makeManager(Long employeeId) {
         Optional<Employee> findEmployee = employeeRepository.findById(employeeId)
                 .map(employee -> {
-                    if(!employee.getIsManager())
-                        return employee.toBuilder()
-                            .isManager(true)
-                            .build();
-                    else throw new EmployeeException("Employee is already manager");
+                    if (!employee.getIsManager()) {
+                        employee.setIsManager(true);
+                        return employeeRepository.save(employee);
+                    } else throw new EmployeeException("Employee is already manager");
                 });
-        if(findEmployee.isPresent()) return findEmployee.get();
+        if (findEmployee.isPresent()) return findEmployee.get();
         else throw new EmployeeException("No such employee");
 
     }
 
     @Override
     public Employee update(Long employeeId, Employee employee) {
-       return employeeRepository.findById(employeeId)
-                .map(findEmployee->{
+        return employeeRepository.findById(employeeId)
+                .map(findEmployee -> {
                     if (employee.getName() != null) findEmployee.setName(employee.getName());
                     if (employee.getIsManager() != null) findEmployee.setIsManager(employee.getIsManager());
                     if (employee.getSalary() != null) findEmployee.setSalary(employee.getSalary());
@@ -70,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
                     return employeeRepository.save(findEmployee);
                 })
-               .orElseThrow();
+                .orElseThrow(() -> new EmployeeException("Employee not found"));
 
     }
 
